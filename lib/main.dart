@@ -1,30 +1,53 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:unimec/screens/doctorProfile.dart';
+import 'package:unimec/screens/firebaseAuth.dart';
+import 'package:unimec/screens/myAppointments.dart';
+import 'package:unimec/screens/skip.dart';
+import 'package:unimec/screens/userProfile.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'mainPage.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // late User user;
+
+  // Future<void> _getUser() async {
+  //   user = _auth.currentUser!;
+  // }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // _getUser();
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        title: 'Flutter Demo',
+        theme: ThemeData(brightness: Brightness.light),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        initialRoute: '/',
+        routes: {
+          // '/': (context) => user == null ? Skip() : MainPage(),
+          '/': (context) => Skip(),
+          '/login': (context) => FireBaseAuth(),
+          '/home': (context) => MainPage(),
+          '/profile': (context) => UserProfile(),
+          '/MyAppointments': (context) => MyAppointments(),
+          '/DoctorProfile': (context) => const DoctorProfile(doctor: '',),
+        }
     );
   }
 }
