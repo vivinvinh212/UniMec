@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948185434154",
+    "project_id": "animated-guard-376315",
+    "storage_bucket": "animated-guard-376315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948185434154:android:66067b1cab0fc8c2781b53",
+        "android_client_info": {
+          "package_name": "com.example.unimec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948185434154-cad152rsm46cd83tu7aq55hl9ctstvm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk4AHY0HL2mbxqG6BXhmojZBPfNl_iuUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948185434154-cad152rsm46cd83tu7aq55hl9ctstvm3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
