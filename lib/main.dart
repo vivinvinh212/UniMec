@@ -12,7 +12,7 @@ import 'mainPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -22,17 +22,17 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // late User user;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late User? user;
 
-  // Future<void> _getUser() async {
-  //   user = _auth.currentUser!;
-  // }
+  Future<void> _getUser() async {
+    user = _auth.currentUser;
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // _getUser();
+    _getUser();
 
     return MaterialApp(
         title: 'Flutter Demo',
@@ -40,8 +40,7 @@ class MyApp extends StatelessWidget {
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         initialRoute: '/',
         routes: {
-          // '/': (context) => user == null ? Skip() : MainPage(),
-          '/': (context) => Skip(),
+          '/': (context) => user == null ? Skip() : MainPage(),
           '/login': (context) => FireBaseAuth(),
           '/home': (context) => MainPage(),
           '/profile': (context) => UserProfile(),
