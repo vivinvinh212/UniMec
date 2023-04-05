@@ -30,7 +30,13 @@ class _TopRatedListState extends State<TopRatedList> {
             shrinkWrap: true,
             itemCount: 5,
             itemBuilder: (context, index) {
-              DocumentSnapshot doctor = snapshot.data?.docs[index] as DocumentSnapshot<Object?>;
+              DocumentSnapshot doctor;
+              if ((snapshot.data?.docs.length ?? 0) > index) {
+                doctor = snapshot.data?.docs[index] as DocumentSnapshot<Object?>;
+              } else {
+                // handle the case where index is out of bounds
+                return Container();
+              }
               return Padding(
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Card(
