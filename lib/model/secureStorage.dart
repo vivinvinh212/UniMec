@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
