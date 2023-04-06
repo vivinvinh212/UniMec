@@ -235,6 +235,51 @@ class _UserProfileState extends State<UserProfile> {
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 20),
                 padding: EdgeInsets.only(left: 20, top: 20),
+                height: MediaQuery.of(context).size.height / 7,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.blueGrey[50],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Container(
+                            height: 27,
+                            width: 27,
+                            color: Colors.indigo[600],
+                            child: Icon(
+                              FlutterIcons.wallet_ant,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Wallet Address',
+                          style: GoogleFonts.lato(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      child: getWalletAddress(),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 20),
+                padding: EdgeInsets.only(left: 20, top: 20),
                 height: MediaQuery.of(context).size.height / 5,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -334,6 +379,38 @@ class _UserProfileState extends State<UserProfile> {
           padding: EdgeInsets.only(top: 10, left: 40),
           child: Text(
             userData!['bio'] == null ? "No Bio" : userData['bio'],
+            style: GoogleFonts.lato(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black38,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget getWalletAddress() {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          // Handle the error gracefully
+          return Text('An error occurred: ${snapshot.error}');
+        }
+        if (!snapshot.hasData)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        var userData = snapshot.data!.data();
+        return Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(top: 10, left: 40),
+          child: Text(
+            userData?['wallet_address'] ?? "wallet has not been imported",
             style: GoogleFonts.lato(
               fontSize: 16,
               fontWeight: FontWeight.w500,

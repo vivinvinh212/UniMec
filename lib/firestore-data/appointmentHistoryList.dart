@@ -63,7 +63,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
           }
           return snapshot.data?.size == 0
               ? Text(
-                  'History Appears here...',
+                  'No Appointment Scheduled',
                   style: GoogleFonts.lato(
                     color: Colors.grey,
                     fontSize: 18,
