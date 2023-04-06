@@ -33,7 +33,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
               .collection('doctors')
               .orderBy('name')
               .startAt([widget.doctor]).endAt(
-                  [widget.doctor + '\uf8ff']).snapshots(),
+                  ['${widget.doctor}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {

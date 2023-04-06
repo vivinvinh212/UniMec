@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -8,17 +6,8 @@ import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unimec/model/cryptoWallet.dart';
 import 'package:unimec/screens/signIn.dart';
-
-import 'package:bip32/bip32.dart' as bip32;
-import 'package:bip39/bip39.dart' as bip39;
-import 'package:web3dart/web3dart.dart';
-import 'package:convert/convert.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
-
-
-
 import '../model/secureStorage.dart';
-import '../utils/cryptoHandle.dart';
+
 
 
 class Register extends StatefulWidget {
@@ -465,8 +454,10 @@ class _RegisterState extends State<Register> {
       await user.updateDisplayName(_displayName.text);
 
       ////// generate crypto wallet for user implicit
-      var wallet = _generateWallet();
-      await _storeWallet(user.uid, _passwordController.text, wallet);
+      var wallet = getNewWallet();
+      wallet.debugLog();
+
+      await SecureStorage().storeWallet(user.uid, _passwordController.text, wallet);
 
       FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'name': _displayName.text,
@@ -485,70 +476,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  CryptoWallet _generateWallet() {
-    // Generate a new BIP-39 mnemonic seed phrase
-    final mnemonic = bip39.generateMnemonic();
 
-    // Derive an Ethereum HD wallet from the seed phrase
-    final seed = bip39.mnemonicToSeed(mnemonic);
-    final root = bip32.BIP32.fromSeed(seed);
-
-    // Derive the first Ethereum private key from the HD wallet
-    final child = root.derivePath("m/44'/60'/0'/0/0");
-    final privateKey = EthPrivateKey.fromHex('0x${hex.encode(child.privateKey?.toList() ?? [])}');
-
-    // Convert the private key to a list of bytes
-    final privateKeyBytes = privateKey.privateKey.toList();
-
-    // Convert the private key to a hexadecimal string
-    final privateKeyHex = '0x${hex.encode(privateKeyBytes)}';
-
-    // Get the Ethereum address from the private key
-    final address = privateKey.address.hex;
-
-    CryptoWallet wallet = CryptoWallet(mnemonic, privateKeyHex, address);
-    wallet.debugLog();
-    return wallet;
-  }
-
-  // store the seed phrase & private key into secure storage
-  Future<void> _storeWallet(String userUID, String password, CryptoWallet wallet) async {
-    // TODO: store salt in decentralized server
-    // Create an encryption key from the password
-    const keyLength = 256; // Key length in bits (can be 128, 192, or 256)
-    final salt = generateSalt(keyLength);
-    const iterationCount = 10000; // Choose a suitable iteration count (e.g. between 10000 and 100000)
-    final key = generateKeyFromPassword(password, salt, iterationCount, keyLength);
-
-    // Generate a random initialization vector (IV)
-    final iv = encrypt.IV.fromLength(16);
-
-    // Create a new AES CBC encryption cipher with the key and IV
-    final keyBase64 = base64.encode(key);
-    final encryptKey = encrypt.Key.fromBase64(keyBase64);
-    final encrypter = encrypt.Encrypter(encrypt.AES(encryptKey, mode: encrypt.AESMode.cbc));
-
-    final userData = {
-      "seed_phrase": wallet.seedPhrase,
-      "private_key": wallet.privateKey,
-      "address": wallet.address,
-    };
-
-    // Encrypt the plaintext using the cipher and IV
-    final encodedData = base64.encode(utf8.encode(json.encode(userData)));
-    final encrypted = encrypter.encrypt(encodedData, iv: iv);
-
-    final userStoredData = {
-      "private": encrypted.base64,
-      "iv": iv.base64,
-      "salt": base64.encode(utf8.encode(salt)),
-      "key_length": keyLength,
-      "iteration": iterationCount,
-    };
-
-    final storage = SecureStorage().storage;
-    await storage.write(key: userUID, value: base64.encode(utf8.encode(json.encode(userStoredData))));
-  }
 
   void _pushPage(BuildContext context, Widget page) {
     Navigator.of(context).push(

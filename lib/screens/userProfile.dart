@@ -391,6 +391,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget getWalletAddress() {
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
