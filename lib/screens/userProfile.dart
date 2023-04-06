@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unimec/firestore-data/appointmentHistoryList.dart';
+import 'package:unimec/screens/myAppointments.dart';
 import 'package:unimec/screens/userSettings.dart';
 
 class UserProfile extends StatefulWidget {
@@ -275,7 +276,14 @@ class _UserProfileState extends State<UserProfile> {
                             child: SizedBox(
                               height: 30,
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyAppointments(),
+                                    ),
+                                  );
+                                },
                                 child: Text('View all'),
                               ),
                             ),
