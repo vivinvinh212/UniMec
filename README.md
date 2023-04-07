@@ -11,5 +11,5 @@ Web 3 solution for patient's all-in-one healthcare experience
   - In a web3 world, where every one uses a crypto wallet as a identifier, patient can use the app to book an appointment with any doctor in any hospital, and the records will be kept secretly
 
 # Reference
-- Our app has been utilized on the top of [Medic.ly](https://github.com/dc-exe/Health_and_Doctor_Appointment)
-  - Old source code has been rewritten to be suitable for latest flutter version.
+- Our app has been utilized on the top of open-sourced [Medic.ly](https://github.com/dc-exe/Health_and_Doctor_Appointment)
+  - Old source code has been rewritten mostly to be suitable for latest flutter version.
