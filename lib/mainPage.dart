@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
+import 'package:unimec/screens/firebaseAuth.dart';
 import 'package:unimec/screens/homePage.dart';
 import 'package:unimec/screens/myAppointments.dart';
 import 'package:unimec/screens/userProfile.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
+
+import 'model/userData.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -43,6 +46,20 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+
+    if (UserData.getInstance().uid.isEmpty) {
+      UserData().setInstance(uid: "", email: "", password: "");
+      _auth.signOut().then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FireBaseAuth(),
+          ),
+        );
+      });
+
+    }
+
     _getUser();
   }
 

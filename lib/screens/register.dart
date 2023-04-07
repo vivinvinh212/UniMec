@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unimec/model/cryptoWallet.dart';
+import 'package:unimec/model/userData.dart';
 import 'package:unimec/screens/signIn.dart';
 import '../model/secureStorage.dart';
 
@@ -468,6 +469,9 @@ class _RegisterState extends State<Register> {
         'city': null,
         'wallet_address': wallet.address,
       }, SetOptions(merge: true));
+
+      // initialize user data
+      UserData().setInstance(uid: user.uid, email: user.email!, password: _passwordController.text);
 
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);

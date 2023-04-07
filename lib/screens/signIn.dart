@@ -10,6 +10,7 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 
 import '../mainPage.dart';
 import '../model/secureStorage.dart';
+import '../model/userData.dart';
 import '../utils/cryptoHandle.dart';
 
 class SignIn extends StatefulWidget {
@@ -333,6 +334,11 @@ class _SignInState extends State<SignIn> {
       ///// retrieve data from secure storage
       var wallet = await SecureStorage().retrieveWallet(user.uid, _passwordController.text);
       wallet.debugLog();
+
+      // initialize user data
+      UserData().setInstance(uid: user.uid, email: user.email!, password: _passwordController.text);
+
+      print("My instance ${UserData.getInstance().password}");
 
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
