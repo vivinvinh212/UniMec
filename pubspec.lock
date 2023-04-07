@@ -516,10 +516,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: "14b489bf93af84727a07c87c73580a9413f9cbffa4ea2342f3f71447a674a3fb"
+      sha256: "23522951540d20a57a60202ed7022e6376bed206a4eee1c347a91f58bd57eb9f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   matcher:
     dependency: transitive
     description:
@@ -688,6 +688,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  secp256k1:
+    dependency: "direct main"
+    description:
+      name: secp256k1
+      sha256: "66310c1fce68d0c3cfae61f9f23aba11f459fb8c84a50bdc6520548c62a4828a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -749,6 +757,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  tuple:
+    dependency: "direct main"
+    description:
+      name: tuple
+      sha256: "0ea99cd2f9352b2586583ab2ce6489d1f95a5f6de6fb9492faaf97ae2060f0aa"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:

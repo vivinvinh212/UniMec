@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unimec/firestore-data/userDetails.dart';
+import 'package:unimec/model/userData.dart';
 
 class UserSettings extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _UserSettingsState extends State<UserSettings> {
   }
 
   Future _signOut() async {
+    UserData().setInstance(uid: "", email: "", password: "");
     await _auth.signOut();
   }
 

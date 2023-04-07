@@ -6,15 +6,17 @@ import 'package:pointycastle/key_derivators/pbkdf2.dart';
 import 'package:pointycastle/key_derivators/api.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/macs/hmac.dart';
+import 'package:pointycastle/pointycastle.dart';
 
-
-Uint8List generateKeyFromPassword(String password, String salt, int iterationCount, int keyLength) {
+Uint8List generateKeyFromPassword(
+    String password, String salt, int iterationCount, int keyLength) {
   const utf8 = Utf8Encoder();
   final passwordBytes = utf8.convert(password);
   final saltBytes = utf8.convert(salt);
 
   final mac = HMac(SHA256Digest(), 64);
-  final pbkdf2 = PBKDF2KeyDerivator(mac)..init(Pbkdf2Parameters(saltBytes, iterationCount, keyLength ~/ 8));
+  final pbkdf2 = PBKDF2KeyDerivator(mac)
+    ..init(Pbkdf2Parameters(saltBytes, iterationCount, keyLength ~/ 8));
 
   final keyBytes = pbkdf2.process(passwordBytes);
   return keyBytes;

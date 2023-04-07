@@ -10,6 +10,7 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 
 import '../mainPage.dart';
 import '../model/secureStorage.dart';
+import '../model/userData.dart';
 import '../utils/cryptoHandle.dart';
 
 class SignIn extends StatefulWidget {
@@ -331,7 +332,13 @@ class _SignInState extends State<SignIn> {
       }
 
       ///// retrieve data from secure storage
-      await _retrieveWallet(user.uid, _passwordController.text);
+      var wallet = await SecureStorage().retrieveWallet(user.uid, _passwordController.text);
+      wallet.debugLog();
+
+      // initialize user data
+      UserData().setInstance(uid: user.uid, email: user.email!, password: _passwordController.text);
+
+      print("My instance ${UserData.getInstance().password}");
 
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
@@ -350,24 +357,6 @@ class _SignInState extends State<SignIn> {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
-  }
-
-  Future<void> _retrieveWallet(String userUID, String password) async {
-    final storage = SecureStorage().storage;
-    final readUserStoredData = await storage.read(key: userUID);
-    final parsedUserStoredData = json.decode(utf8.decode(base64.decode(readUserStoredData!)));
-
-    // Create a new AES CBC decryption cipher with the key and IV
-    final genDecryptedKey = generateKeyFromPassword(password, utf8.decode(base64.decode(parsedUserStoredData["salt"])), parsedUserStoredData["iteration"], parsedUserStoredData["key_length"]);
-    final decryptedKeyBase64 = base64.encode(genDecryptedKey);
-    final decryptKey = encrypt.Key.fromBase64(decryptedKeyBase64);
-    final decrypter = encrypt.Encrypter(encrypt.AES(decryptKey, mode: encrypt.AESMode.cbc));
-
-    final decrypted = decrypter.decrypt(encrypt.Encrypted.fromBase64(parsedUserStoredData["private"]), iv: encrypt.IV(base64.decode(parsedUserStoredData["iv"])));
-    final parsedUserSecretData = json.decode(utf8.decode(base64.decode(decrypted)));
-
-    CryptoWallet wallet = CryptoWallet(parsedUserSecretData["seed_phrase"], parsedUserSecretData["private_key"], parsedUserSecretData["address"]);
-    wallet.debugLog();
   }
 
   void _pushPage(BuildContext context, Widget page) {

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unimec/firestore-data/appointmentHistoryList.dart';
+import 'package:unimec/firestore-data/healthRecordList.dart';
+import 'package:unimec/screens/heathRecords.dart';
 import 'package:unimec/screens/myAppointments.dart';
 import 'package:unimec/screens/userSettings.dart';
 
@@ -352,6 +354,81 @@ class _UserProfileState extends State<UserProfile> {
                   ],
                 ),
               ),
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 20),
+                padding: EdgeInsets.only(left: 20, top: 20),
+                height: MediaQuery.of(context).size.height / 5,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.blueGrey[50],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Container(
+                            height: 27,
+                            width: 27,
+                            color: Colors.green[900],
+                            child: const Icon(
+                              FlutterIcons.document_landscape_ent,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Health Records",
+                          style: GoogleFonts.lato(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(right: 10),
+                            alignment: Alignment.centerRight,
+                            child: SizedBox(
+                              height: 30,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HealthRecords(),
+                                    ),
+                                  );
+                                },
+                                child: Text('View all'),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: Scrollbar(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 35, right: 15),
+                          child: SingleChildScrollView(
+                            child: HealthRecordList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -391,6 +468,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget getWalletAddress() {
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unimec/screens/doctorProfile.dart';
 import 'package:unimec/screens/firebaseAuth.dart';
+import 'package:unimec/screens/heathRecords.dart';
 import 'package:unimec/screens/myAppointments.dart';
 import 'package:unimec/screens/skip.dart';
 import 'package:unimec/screens/userProfile.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => MainPage(),
           '/profile': (context) => UserProfile(),
           '/MyAppointments': (context) => MyAppointments(),
+          '/HealthRecords': (context) => HealthRecords(),
           '/DoctorProfile': (context) => const DoctorProfile(doctor: '',),
         }
     );

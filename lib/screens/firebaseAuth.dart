@@ -46,7 +46,7 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      'Welcome to Medico!',
+                      'Welcome to UniMec!',
                       style: GoogleFonts.b612(
                           color: Colors.indigo[800],
                           fontSize: 17,
